@@ -1,15 +1,20 @@
 {
-  "name": "d3-relation-graph",
-  "version": "0.0.1",
-  "description": "A force map based on D3.js to show the relation.",
-  "main": "index.js",
-  "keywords": [
-    "force map",
-    "d3.js",
-    "knowledge graph",
-    "nodes graph",
-    "relation graph"
-  ],
-  "author": "cyx",
-  "license": "MIT"
+    "name": "d3-relation-graph",
+    "version": "0.0.1",
+    "description": "A force map based on D3.js to show the relation.",
+    "main": "index.js",
+    "keywords": [
+        "force map",
+        "d3.js",
+        "knowledge graph",
+        "nodes graph",
+        "relation graph"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Duncanxyz/d3-relation-graph"
+    },
+    "private": false,
+    "author": "cyx",
+    "license": "MIT"
 }
