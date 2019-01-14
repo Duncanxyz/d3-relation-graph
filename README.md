@@ -11,7 +11,7 @@ npm install d3-relation-graph --save
 ### Using a script tag for global use:
 
 ```html
-<link rel="stylesheet" href="dist/styles/iview.css" />
+<link rel="stylesheet" href="dist/css/d3-relation-graph.css" />
 <script type="text/javascript" src="dist/js/d3-relation-graph.min.js"></script>
 ```
 
