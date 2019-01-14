@@ -1,0 +1,144 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="../dist/css/d3-relation-graph.css">
+        <script src="../node_modules/d3/dist/d3.js"></script>
+    </head>
+    <body>
+        <div
+            id="app"
+            style="width: 500px;height:500px;background-color:#fff;"
+        ></div>
+        <script src="../dist/js/d3-relation-graph.min.js"></script>
+        <script>
+            let data = {
+                nodes: [
+                    {
+                        id: 'companyA',
+                        type: 'nodeA',
+                        showText:
+                            'https://upload.wikimedia.org/wikipedia/en/thumb/e/e7/AutoNaviLogo.png/220px-AutoNaviLogo.png',
+                        level: 1
+                    },
+                    {
+                        id: 'companyA-propA',
+                        type: 'nodeB',
+                        showText: 'propA',
+                        level: 2
+                    },
+                    {
+                        id: 'value1',
+                        type: 'nodeC',
+                        showText: 'value1',
+                        level: 3
+                    },
+                    {
+                        id: 'value2',
+                        type: 'nodeC',
+                        showText: 'value2',
+                        level: 3
+                    },
+                    {
+                        id: 'companyB-propA',
+                        type: 'nodeB',
+                        showText: 'propA',
+                        level: 2
+                    },
+                    {
+                        id: 'companyA-propB',
+                        type: 'nodeB',
+                        showText: 'propB',
+                        level: 2
+                    },
+                    {
+                        id: 'companyB',
+                        type: 'nodeA',
+                        showText:
+                            'https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Baidu.svg/250px-Baidu.svg.png',
+                        level: 1
+                    }
+                ],
+                links: [
+                    {
+                        id: '1',
+                        source: 'companyA',
+                        target: 'companyA-propB',
+                        type: 'Lists',
+                        showText: 'xxx'
+                    },
+                    {
+                        id: '2',
+                        source: 'companyB-propA',
+                        target: 'value2',
+                        type: 'Lists',
+                        showText: 'xxx'
+                    },
+                    {
+                        id: '3',
+                        source: 'companyB',
+                        target: 'companyB-propA',
+                        type: 'Lists',
+                        showText: 'xxx'
+                    },
+                    {
+                        id: '4',
+                        source: 'companyB-propA',
+                        target: 'value1',
+                        type: 'Lists',
+                        showText: 'xxx'
+                    },
+                    {
+                        id: '5',
+                        source: 'companyA-propA',
+                        target: 'value1',
+                        type: 'Lists',
+                        showText: 'xxx'
+                    },
+                    {
+                        id: '6',
+                        source: 'companyA',
+                        target: 'companyA-propA',
+                        type: 'Lists',
+                        showText: 'xxx'
+                    },
+                    {
+                        id: '7',
+                        source: 'companyA-propA',
+                        target: 'value2',
+                        type: 'Lists',
+                        showText: 'xxx'
+                    }
+                ]
+            };
+
+            let rgObj = rg.create({
+                wrapper: 'app',
+                data,
+                typeOptions: {
+                    nodes: {
+                        nodeA: new rg.Node(
+                            new rg.Rect(100, 100, 25, 25),
+                            new rg.Image(80, 80, 'showText')
+                        ),
+                        nodeB: new rg.Node(
+                            new rg.Circle(40),
+                            new rg.Text('showText', true, 60)
+                        ),
+                        nodeC: new rg.Node(
+                            new rg.Rect(80, 50),
+                            new rg.Text('showText', true, 80)
+                        )
+                    },
+                    links: {
+                        Lists: new rg.Link(
+                            new rg.Line(),
+                            new rg.LinkDescribe([
+                                new rg.Rect(50, 30),
+                                new rg.Text('showText', true, 50)
+                            ])
+                        )
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
