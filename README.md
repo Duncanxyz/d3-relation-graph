@@ -1,5 +1,9 @@
 # d3-relation-graph
+
 ## Show
+<p>
+    <img style="width:500px;height:500px;" src="https://raw.githubusercontent.com/Duncanxyz/d3-relation-graph/22213748405ca4d366fdc5ebc513a4171c44584f/demo/show.gif" alt="show">
+</p>
 
 ## Install
 
