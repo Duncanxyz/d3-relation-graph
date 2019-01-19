@@ -1,9 +1,28 @@
 # d3-relation-graph
 
+Configuration changes:
+
+-   options.typeOtions
+
+New configuration:
+
+-   options.typeOptions.nodes[nodeName].collideRadius [more information in D3.js API](https://github.com/d3/d3-force/blob/master/README.md#collide_radius)
+-   options.isZoomable
+-   options.isBounding
+-   options.isSticky
+
 ## Show
-<p>
-    <img style="width:500px;height:500px;" src="https://raw.githubusercontent.com/Duncanxyz/d3-relation-graph/22213748405ca4d366fdc5ebc513a4171c44584f/demo/show.gif" alt="show">
-</p>
+
+-   Basic
+
+    <p>
+        <img style="width:500px;height:500px;" src="https://raw.githubusercontent.com/Duncanxyz/d3-relation-graph/master/demo/basic.gif" alt="show">
+    </p>
+
+-   Customize content
+    <p>
+        <img style="width:500px;height:500px;" src="https://raw.githubusercontent.com/Duncanxyz/d3-relation-graph/master/demo/customize-content.gif" alt="show">
+    </p>
 
 ## Install
 
@@ -28,10 +47,7 @@ npm install d3-relation-graph --save
 -   HTML:
 
 ```html
-<div
-    id="app"
-    style="width: 500px;height:500px;background-color:#fff;margin: 0 auto;border: 1px solid #999999;"
-></div>
+<div id="app">
     <!-- SVG will be generated here, and its size is based on the parent element -->
 </div>
 ```
@@ -48,19 +64,23 @@ rg.create(options);
 
 ### Options
 
-| Name             | ValueType        | Value Default | Description                                             | Is Necessary |
-| ---------------- | ---------------- | ------------- | ------------------------------------------------------- | ------------ |
-| wrapper          | string \| Object |               | The element wrapper's id or Object                      | true         |
-| data             | Object           |               | The data of relation                                    | true         |
-| typeOptions      | Object           |               | Appearance configuration of the nodes and links.        | false        |
-| defaultShowLevel | number           | 3             | Level of expansion when created                         | false        |
-| levelKey         | string           | level         | Key of the level params of the data(both node and link) | false        |
-| nodeTypeKey      | string           | type          | Key of the type params of the node data                 | false        |
-| linkTypeKey      | string           | type          | Key of the type params of the link data                 | false        |
-| click            | function         |               | The callback while node or link was clicked             | false        |
-| mouseover        | function         |               | The callback while node or link was mouseovered         | false        |
-| mouseout         | function         |               | The callback while node or link was mouseouted          | false        |
+| Name             | ValueType        | Value Default | Description                                                                       | Is Necessary |
+| ---------------- | ---------------- | ------------- | --------------------------------------------------------------------------------- | ------------ |
+| wrapper          | string \| Object |               | The element wrapper's id or Object                                                | √            |
+| data             | Object           |               | The data of relation                                                              | √            |
+| typeOptions      | Object           |               | Appearance configuration of the nodes and links.                                  |              |
+| defaultShowLevel | number           | 3             | Level of expansion when created                                                   |              |
+| levelKey         | string           | level         | Key of the level params of the data(both node and link)                           |              |
+| nodeTypeKey      | string           | type          | Key of the type params of the node data                                           |              |
+| linkTypeKey      | string           | type          | Key of the type params of the link data                                           |              |
+| isZoomable       | boolean          | false         | If set isZoomable as true, "isBounding" will be invalid                           |              |
+| isBounding       | boolean          | true          | If set isZoomable as true, "isBounding" will be invalid                           |              |
+| isSticky         | boolean          | false         | If set isSticky as true, the node's position will be fixed after dragging by user |              |
+| click            | function         |               | The callback while node or link was clicked                                       |              |
+| mouseover        | function         |               | The callback while node or link was mouseovered                                   |              |
+| mouseout         | function         |               | The callback while node or link was mouseouted                                    |              |
 
 ## Demo(open in your local repository)
 
 -   [Basic]("./demo/basic.html")
+-   [Customize content]("./demo/customize-content.html")
