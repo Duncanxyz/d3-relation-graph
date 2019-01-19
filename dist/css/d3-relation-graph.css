@@ -4,10 +4,8 @@
 }
 
 .rg-wrapper text {
-    text-anchor: middle;
     fill: #000;
     text-anchor: middle;
-    dominant-baseline: middle;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -17,6 +15,12 @@
 .rg-wrapper line {
     stroke: #eee;
     stroke-width: 2px;
+}
+
+.rg-wrapper .rg-hover-not-relating rect,
+.rg-wrapper .rg-hover-not-relating circle,
+.rg-wrapper .rg-hover-not-relating line {
+    opacity: 0.2;
 }
 
 .rg-wrapper .rg-hover-relating rect,
@@ -38,6 +42,12 @@
 .rg-wrapper .rg-select-relating line {
     stroke-width: 4px;
     stroke: #ccff99;
+}
+
+.rg-wrapper .rg-select-not-relating rect,
+.rg-wrapper .rg-select-not-relating circle,
+.rg-wrapper .rg-select-not-relating line {
+    opacity: 0.2;
 }
 
 .rg-wrapper .rg-selected rect,

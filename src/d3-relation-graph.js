@@ -54,14 +54,34 @@
          *
          * @param {DrawOptionsBaseSelf} options 选项对象
          */
-        draw(options) {
-            let { d3Self } = options;
-            for (let item of this.drawList) {
+        draw({ d3Self }) {
+            this.drawList.forEach(itemName => {
+                let item = this[itemName];
                 if (item) {
-                    let g = d3Self.append('g').attr('class', item);
-                    this[item].draw(new DrawOptionsBaseParent(g));
+                    item.draw(new DrawOptionsBaseParent(d3Self));
                 }
-            }
+            });
+        }
+    }
+
+    /**
+     * 内容类
+     */
+    class ContentsWrapper {
+        constructor({ contents, wrapperClass = 'contents-wrapper' } = {}) {
+            this.contents = contents;
+            this.wrapperClass = wrapperClass;
+        }
+
+        draw({ d3Parent }) {
+            let { wrapperClass, contents } = this;
+            let contentWrapper = d3Parent
+                .append('g')
+                .attr('class', wrapperClass);
+
+            contents.forEach(content => {
+                content.draw({ d3Parent: contentWrapper });
+            });
         }
     }
 
@@ -71,17 +91,42 @@
      * @class
      */
     class Node extends Substance {
-        constructor(shape, content) {
-            super(['shape', 'content']);
-            this.shape = shape;
-            this.content = content;
+        constructor({ appearance, collideRadius = 1 } = {}) {
+            super(['appearance']);
+            this.appearance = appearance;
+            this.collideRadius = collideRadius;
         }
 
-        tickActions({ d3Self }) {
+        tickActions({ d3Self, svg, isBounding }) {
+            let width = parseInt(svg.style('width'));
+            let height = parseInt(svg.style('height'));
             d3Self.attr('transform', function(d) {
-                d3.select(this);
-                return 'translate(' + d.x + ' ' + d.y + ')';
+                if (isBounding) {
+                    let box = this.getBBox();
+                    let halfBoxWidth = box.width / 2;
+                    let halfBoxHeight = box.height / 2;
+
+                    let { x, y } = d;
+                    d.x = Math.max(
+                        halfBoxWidth,
+                        Math.min(width - halfBoxWidth, x)
+                    );
+                    d.y = Math.max(
+                        halfBoxHeight,
+                        Math.min(height - halfBoxHeight, y)
+                    );
+                }
+                return 'translate(' + d.x + ', ' + d.y + ')';
             });
+        }
+    }
+
+    /**
+     * @class
+     */
+    class NodeAppearance extends ContentsWrapper {
+        constructor({ contents } = {}) {
+            super({ contents, wrapperClass: 'node-appearance' });
         }
     }
 
@@ -96,48 +141,21 @@
          * @param {Line} line 线对象
          * @param {LinkDescribe} describe 描述实例
          */
-        constructor(line, describe) {
+        constructor({ line = new Line(), describe } = {}) {
             super(['line', 'describe']);
             this.line = line;
             this.describe = describe;
         }
 
         tickActions({ d3Self }) {
-            this.line.tickActions(new DrawOptionsBaseParent(d3Self));
-            this.describe.tickActions(new DrawOptionsBaseParent(d3Self));
+            this.line.tickActions({ d3Parent: d3Self });
+            this.describe.tickActions({ d3Parent: d3Self });
         }
     }
 
     /**
-     * 线描述类
+     * @class
      */
-    class LinkDescribe {
-        constructor(describeContents) {
-            this.describeContents = describeContents;
-        }
-
-        draw({ d3Parent }) {
-            let linkDescribe = d3Parent
-                .append('g')
-                .attr('class', 'link-describe');
-            for (let describeContent of this.describeContents) {
-                describeContent.draw(new DrawOptionsBaseParent(linkDescribe));
-            }
-        }
-
-        tickActions({ d3Parent }) {
-            d3Parent.selectAll('.link-describe').attr('transform', function(d) {
-                return (
-                    'translate(' +
-                    (+d.source.x + d.target.x) / 2 +
-                    ' ' +
-                    (+d.source.y + d.target.y) / 2 +
-                    ')'
-                );
-            });
-        }
-    }
-
     class Line {
         constructor() {}
 
@@ -168,12 +186,37 @@
         }
     }
 
+    /**
+     * 线描述类
+     *
+     * @class
+     */
+    class LinkDescribe extends ContentsWrapper {
+        constructor({ contents } = {}) {
+            super({ contents, wrapperClass: 'link-describe' });
+        }
+
+        tickActions({ d3Parent }) {
+            d3Parent.selectAll('.link-describe').attr('transform', function(d) {
+                return (
+                    'translate(' +
+                    (+d.source.x + d.target.x) / 2 +
+                    ' ' +
+                    (+d.source.y + d.target.y) / 2 +
+                    ')'
+                );
+            });
+        }
+    }
+
+    /**
+     * @class
+     */
     class Rect {
-        constructor(width = 100, height = 100, rx = 10, ry = 10) {
+        constructor({ width = 100, height = 100, borderRadius = 10 } = {}) {
             this.width = width;
             this.height = height;
-            this.rx = rx;
-            this.ry = ry;
+            this.borderRadius = borderRadius;
         }
 
         /**
@@ -182,20 +225,23 @@
          * @param {DrawOptionsBaseParent} options 选项对象
          */
         draw({ d3Parent }) {
-            let { width, height, rx, ry } = this;
+            let { width, height, borderRadius } = this;
             let rect = d3Parent
                 .append('rect')
                 .attr('width', width)
                 .attr('height', height)
-                .attr('rx', rx)
-                .attr('ry', ry)
+                .attr('rx', borderRadius)
+                .attr('ry', borderRadius)
                 .attr('x', -width / 2)
                 .attr('y', -height / 2);
         }
     }
 
+    /**
+     * @class
+     */
     class Circle {
-        constructor(r = 40) {
+        constructor({ r = 40 }) {
             this.r = r;
         }
 
@@ -214,8 +260,11 @@
         }
     }
 
+    /**
+     * @class
+     */
     class Image {
-        constructor(width = 80, height = 80, srcKey = 'src') {
+        constructor({ width = 80, height = 80, srcKey = 'src' } = {}) {
             this.width = width;
             this.height = height;
             this.srcKey = srcKey;
@@ -239,12 +288,15 @@
         }
     }
 
+    /**
+     * @class
+     */
     class Text {
-        constructor(
+        constructor({
             textStrKey = 'showText',
             isOverflowHidden = true,
             maxWidth = 60
-        ) {
+        } = {}) {
             this.textStrKey = textStrKey;
             this.isOverflowHidden = isOverflowHidden;
             this.maxWidth = maxWidth;
@@ -261,6 +313,7 @@
                 .append('text')
                 .attr('x', 0)
                 .attr('y', 0)
+                .attr('dy', '0.35em')
                 .text(function(d) {
                     return d[textStrKey];
                 });
@@ -320,6 +373,8 @@
 
     /**
      * 事件返回数据类
+     *
+     * @class
      */
     class EventObj {
         constructor(targetData, wholeData, event) {
@@ -336,49 +391,64 @@
      */
     class Graph {
         constructor({
-            storeData,
-            showData,
-            defaultShowLevel,
-            levelKey,
+            wrapper,
+            defaultShowLevel = 3,
+            levelKey = 'level',
+            data,
             typeOptions,
-            nodeTypeKey,
-            linkTypeKey,
-            click,
-            mouseover,
-            mouseout,
-            wrapperDom
+            nodeTypeKey = 'type',
+            linkTypeKey = 'type',
+            click = null,
+            mouseover = null,
+            mouseout = null,
+            isZoomable = false,
+            isBounding = true,
+            isSticky = false
         }) {
-            this.storeData = storeData;
-            this.showData = showData;
-            this.typeOptions = typeOptions;
+            this.svg = this.initSvg(wrapper);
+            this.defaultShowLevel = defaultShowLevel;
+            this.levelKey = levelKey;
+
+            // 储存一份原索引
+            this.storeData = data;
+            let { nodes, links } = data;
+            // 当前显示的索引
+            this.showData = new GraphData([...nodes], [...links]);
+
+            this.typeOptions = makeTypeOptionsParser(typeOptions);
             this.nodeTypeKey = nodeTypeKey;
             this.linkTypeKey = linkTypeKey;
             this.click = click;
             this.mouseover = mouseover;
             this.mouseout = mouseout;
-            this.svg = this.initSvg(wrapperDom);
+
             this.simulation = null;
             this.nodesWrapper = null;
             this.linksWrapper = null;
             this.filteredIdSet = new Set();
             this.isSelected = false;
-            this.defaultShowLevel = defaultShowLevel;
-            this.levelKey = levelKey;
+            this.isSticky = isSticky;
+            this.isZoomable = isZoomable;
+            this.isBounding = isZoomable ? false : isBounding;
+
+            this.init({ isZoomable });
         }
 
         /**
          * 初始化
          */
-        init() {
+        init({ isZoomable }) {
             // 初始化模拟力
             let { svg } = this;
-            this.simulation = initSimulation({
-                data: this.showData,
-                svg
-            });
+            // this.simulation = initSimulation({
+            //     data: this.showData,
+            //     svg
+            // });
             // 创建分组
             let rg = svg.append('g').attr('class', 'rg');
-            startZoom(svg, rg);
+            if (isZoomable) {
+                startZoom(svg, rg);
+            }
             this.linksWrapper = rg.append('g').attr('class', 'links');
             this.nodesWrapper = rg.append('g').attr('class', 'nodes');
             this.update();
@@ -388,16 +458,30 @@
                 levelKey: this.levelKey
             });
             this.update();
+
+            // 增加窗口大小变化时的响应式
+            let __this = this;
+            window.addEventListener('resize', function() {
+                __this.update();
+            });
         }
 
         /**
          * 初始化svg
          *
-         * @param {Object} wrapperDom 外层原生元素对象
+         * @param {Object} wrapper 外层原生元素id或DOM对象
          *
          * @return {Object} 创建的svg的d3对象
          */
-        initSvg(wrapperDom) {
+        initSvg(wrapper) {
+            let wrapperDom =
+                typeof wrapper === 'string'
+                    ? document.getElementById(wrapper)
+                    : wrapper;
+            if (!wrapper) {
+                throw new Error('the wrapper does not exist.');
+            }
+
             let svg = d3
                 .select(wrapperDom)
                 .append('svg')
@@ -499,19 +583,17 @@
          * 刷新模拟力
          */
         updateSimulation() {
-            let {
-                showData: { nodes, links },
-                simulation
-            } = this;
+            let { showData, simulation, svg, typeOptions, nodeTypeKey } = this;
 
-            let link_force = d3
-                .forceLink(links)
-                .id(function(d) {
-                    return d.id;
-                })
-                .distance(200);
-            simulation.force('links', link_force);
-            simulation.nodes(nodes);
+            if (simulation) {
+                simulation.stop();
+            }
+            this.simulation = initSimulation({
+                data: showData,
+                svg,
+                typeOptions,
+                nodeTypeKey
+            });
         }
 
         /**
@@ -524,10 +606,10 @@
             } = this;
             simulation.stop();
 
-            for (let node of nodes) {
+            nodes.forEach(node => {
                 node.fx = null;
                 node.fy = null;
-            }
+            });
 
             simulation.on('tick', () => {
                 this.tickActions();
@@ -542,22 +624,32 @@
         tickActions() {
             let d3Nodes = this.nodesWrapper.selectAll('.node');
             let d3links = this.linksWrapper.selectAll('.link');
-            let { nodeTypeKey, linkTypeKey, typeOptions } = this;
+            let {
+                nodeTypeKey,
+                linkTypeKey,
+                typeOptions,
+                isBounding,
+                svg
+            } = this;
             d3Nodes.each(function(d) {
                 let node = d3.select(this);
                 let typeObj = typeOptions.nodes[d[nodeTypeKey]];
                 if (!typeObj) {
                     typeObj = DEFAULT_TYPE_OPTIONS.nodes['default'];
                 }
-                typeObj.tickActions(new DrawOptionsBaseSelf(node));
+                typeObj.tickActions({
+                    d3Self: node,
+                    svg,
+                    isBounding
+                });
             });
             d3links.each(function(d) {
                 let link = d3.select(this);
-                let typeObj = typeOptions.links[d[nodeTypeKey]];
+                let typeObj = typeOptions.links[d[linkTypeKey]];
                 if (!typeObj) {
                     typeObj = DEFAULT_TYPE_OPTIONS.links['default'];
                 }
-                typeObj.tickActions(new DrawOptionsBaseSelf(link));
+                typeObj.tickActions({ d3Self: link });
             });
         }
 
@@ -566,7 +658,10 @@
          *
          */
         makeNodeDraggable() {
-            let dragHandler = createDragHandler(this.simulation);
+            let dragHandler = createDragHandler({
+                simulation: this.simulation,
+                isSticky: this.isSticky
+            });
             dragHandler(this.nodesWrapper.selectAll('.node'));
         }
 
@@ -795,20 +890,20 @@
             let colletedNodes = [hideNode];
             showData.nodes.splice(showData.nodes.indexOf(hideNode), 1);
             // 找出比该节点高级且与该节点相连的线，并删除
-            for (let link of showData.links) {
+            showData.links.forEach(link => {
                 let otherNode;
                 if (link.source === hideNode) {
                     otherNode = link.target;
                 } else if (link.target === hideNode) {
                     otherNode = link.source;
                 } else {
-                    continue;
+                    return;
                 }
 
                 if (otherNode.level < hideNode.level) {
                     showData.links.splice(showData.links.indexOf(link), 1);
                 }
-            }
+            });
 
             filterAllLowerRelation(hideNode, colletedNodes, showData, 1);
 
@@ -938,13 +1033,37 @@
 
     const DEFAULT_TYPE_OPTIONS = {
         nodes: {
-            default: new Node(new Circle(), new Text())
+            default: new Node({
+                appearance: new NodeAppearance({
+                    contents: [
+                        new Rect({
+                            width: 100,
+                            height: 100,
+                            borderRadius: 10
+                        })
+                    ]
+                }),
+                collideRadius: 100
+            })
         },
         links: {
-            default: new Link(
-                new Line(),
-                new LinkDescribe([new Rect(), new Text()])
-            )
+            default: new Link({
+                line: new Line(),
+                describe: new LinkDescribe({
+                    contents: [
+                        new Rect({
+                            width: 50,
+                            height: 30,
+                            borderRadius: 0
+                        }),
+                        new Text({
+                            textStrKey: 'showText',
+                            isOverflowHidden: true,
+                            maxWidth: 50
+                        })
+                    ]
+                })
+            })
         }
     };
 
@@ -954,45 +1073,8 @@
      * @param {Object} options 选项
      *
      */
-    function create({
-        wrapper,
-        defaultShowLevel = 3,
-        levelKey = 'level',
-        data = { nodes: [], links: [] },
-        typeOptions,
-        nodeTypeKey = 'type',
-        linkTypeKey = 'type',
-        click = null,
-        mouseover = null,
-        mouseout = null
-    }) {
-        wrapper =
-            typeof wrapper === 'string'
-                ? document.getElementById(wrapper)
-                : wrapper;
-        if (!wrapper) {
-            throw new Error('the wrapper does not exist.');
-        }
-        // 储存一份原索引
-        let storeData = data;
-        let { nodes, links } = data;
-        // 当前显示的索引
-        let showData = new GraphData([...nodes], [...links]);
-
-        let graph = new Graph({
-            wrapperDom: wrapper,
-            storeData,
-            showData,
-            typeOptions,
-            nodeTypeKey,
-            linkTypeKey,
-            click,
-            mouseover,
-            mouseout,
-            defaultShowLevel,
-            levelKey
-        });
-        graph.init();
+    function create(options) {
+        let graph = new Graph(options);
         return {
             hideAllNodeByKey(key, value) {
                 graph.hideAllNodeByKey(key, value);
@@ -1027,25 +1109,26 @@
     ) {
         // 找出所有与结点相关的线
         let lowerRelationLinks = [];
-        for (let link of storeLinks) {
+        storeLinks.forEach(link => {
             let otherNode;
             if (link.source === detectNodeData) {
                 otherNode = link.target;
             } else if (link.target === detectNodeData) {
                 otherNode = link.source;
             } else {
-                continue;
+                return;
             }
 
             if (filteredIdSet.has(otherNode.id)) {
-                continue;
+                return;
             }
             if (otherNode[levelKey] > detectNodeData[levelKey]) {
                 lowerRelationLinks.push(link);
             }
-        }
+        });
 
-        for (let link of lowerRelationLinks) {
+        for (let i = 0; i < lowerRelationLinks.length; i++) {
+            let link = lowerRelationLinks[i];
             if (showLinks.indexOf(link) === -1) {
                 return true;
             }
@@ -1242,7 +1325,7 @@
      *
      * @param {Object} simulation 模拟力的对象
      */
-    function createDragHandler(simulation) {
+    function createDragHandler({ simulation, isSticky }) {
         let dragHandler = d3
             .drag()
             .on('start', dragStart)
@@ -1263,8 +1346,12 @@
             d.fy = d3.event.y;
         }
 
-        function dragEnd() {
+        function dragEnd(d) {
             if (!d3.event.active) simulation.alphaTarget(0);
+            if (!isSticky) {
+                d.fx = null;
+                d.fy = null;
+            }
             d3.select(this).attr('rg-dragging', null);
         }
     }
@@ -1278,7 +1365,12 @@
      *
      * @return {Object} 模拟力
      */
-    function initSimulation({ data: { nodes, links }, svg }) {
+    function initSimulation({
+        data: { nodes, links },
+        svg,
+        typeOptions,
+        nodeTypeKey
+    }) {
         let width = parseInt(svg.style('width'));
         let height = parseInt(svg.style('height'));
 
@@ -1292,10 +1384,25 @@
         let simulation = d3
             .forceSimulation()
             .nodes(nodes)
-            .force('charge_force', d3.forceManyBody().strength(-400))
             .force('center_force', d3.forceCenter(width / 2, height / 2))
+            .force('charge_force', d3.forceManyBody().strength(-100))
             .force('links', link_force)
-            .force('collide_force', d3.forceCollide(50));
+            .force(
+                'collide_force',
+                d3.forceCollide(function(d) {
+                    let nodeObj = typeOptions.nodes[d[nodeTypeKey]];
+                    if (!nodeObj) {
+                        nodeObj = DEFAULT_TYPE_OPTIONS.nodes['default'];
+                    }
+                    let { collideRadius } = nodeObj;
+                    return collideRadius ? collideRadius : 1;
+                })
+            );
+        // .force('x_force', d3.forceX(width / 2).strength(0.03))
+        // .force('y_force', d3.forceY(height / 2).strength(0.03))
+        setTimeout(() => {
+            simulation.force('center_force', null);
+        }, 1000);
 
         return simulation;
     }
@@ -1437,8 +1544,72 @@
         return result;
     }
 
+    /**
+     * 根据类型配置生成处理器
+     *
+     * @param {Object} typeOptions 类型配置
+     */
+    function makeTypeOptionsParser(typeOptions) {
+        // 解析节点的
+        let nodesOptions = typeOptions.nodes;
+        let nodesParser = {};
+        for (let prop in nodesOptions) {
+            // 生成基本框架
+            nodesParser[prop] = new Node({
+                appearance: new NodeAppearance(),
+                collideRadius: nodesOptions[prop].collideRadius
+            });
+            // 实例化内容类
+            let contentsOptions = nodesOptions[prop].appearance.contents;
+            nodesParser[prop].appearance.contents = makeContentsOptionsParser(
+                contentsOptions
+            );
+        }
+
+        // 解析线的
+        let linksOptions = typeOptions.links;
+        let linksParser = {};
+        for (let prop in linksOptions) {
+            // 生成基本框架
+            linksParser[prop] = new Link({
+                describe: new LinkDescribe()
+            });
+            // 实例化内容类
+            let contentsOptions = linksOptions[prop].describe.contents;
+            linksParser[prop].describe.contents = makeContentsOptionsParser(
+                contentsOptions
+            );
+        }
+
+        return {
+            nodes: nodesParser,
+            links: linksParser
+        };
+    }
+
+    /**
+     * 根据内容配置生成处理器
+     *
+     * @param {Object} contentsOptions 内容配置
+     */
+    function makeContentsOptionsParser(contentsOptions) {
+        let contentsParser = [];
+        contentsOptions.forEach(contentOptions => {
+            if (contentOptions.draw) {
+                // 自定义的绘画对象
+                contentsParser.push(contentOptions);
+                return;
+            }
+            let { className, params } = contentOptions;
+            contentsParser.push(new exports[className](params));
+        });
+
+        return contentsParser;
+    }
+
     // Class
     exports.Node = Node;
+    exports.NodeAppearance = NodeAppearance;
     exports.Link = Link;
     exports.LinkDescribe = LinkDescribe;
     exports.Line = Line;

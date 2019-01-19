@@ -1,16 +1,21 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
-        <link rel="stylesheet" href="../dist/css/d3-relation-graph.css">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Basic Demo</title>
+        <link rel="stylesheet" href="../dist/css/d3-relation-graph.css" />
         <script src="../node_modules/d3/dist/d3.js"></script>
     </head>
     <body>
         <div
             id="app"
-            style="width: 500px;height:500px;background-color:#fff;margin: 0 auto;border: 1px solid #999999"
+            style="width: 80vw;height:90vh;background-color:#fff;margin: 0 auto;border: 1px solid #999999"
         ></div>
         <script src="../dist/js/d3-relation-graph.min.js"></script>
         <script>
-            let data = {
+            var data = {
                 nodes: [
                     {
                         id: 'companyA',
@@ -62,82 +67,155 @@
                         id: '1',
                         source: 'companyA',
                         target: 'companyA-propB',
-                        type: 'Lists',
+                        type: 'linkA',
                         showText: 'xxx'
                     },
                     {
                         id: '2',
                         source: 'companyB-propA',
                         target: 'value2',
-                        type: 'Lists',
+                        type: 'linkA',
                         showText: 'xxx'
                     },
                     {
                         id: '3',
                         source: 'companyB',
                         target: 'companyB-propA',
-                        type: 'Lists',
+                        type: 'linkA',
                         showText: 'xxx'
                     },
                     {
                         id: '4',
                         source: 'companyB-propA',
                         target: 'value1',
-                        type: 'Lists',
+                        type: 'linkA',
                         showText: 'xxx'
                     },
                     {
                         id: '5',
                         source: 'companyA-propA',
                         target: 'value1',
-                        type: 'Lists',
+                        type: 'linkA',
                         showText: 'xxx'
                     },
                     {
                         id: '6',
                         source: 'companyA',
                         target: 'companyA-propA',
-                        type: 'Lists',
+                        type: 'linkA',
                         showText: 'xxx'
                     },
                     {
                         id: '7',
                         source: 'companyA-propA',
                         target: 'value2',
-                        type: 'Lists',
+                        type: 'linkA',
                         showText: 'xxx'
                     }
                 ]
             };
 
-            let rgObj = rg.create({
-                wrapper: 'app',
-                data,
-                typeOptions: {
-                    nodes: {
-                        nodeA: new rg.Node(
-                            new rg.Rect(100, 100, 25, 25),
-                            new rg.Image(80, 80, 'showText')
-                        ),
-                        nodeB: new rg.Node(
-                            new rg.Circle(40),
-                            new rg.Text('showText', true, 60)
-                        ),
-                        nodeC: new rg.Node(
-                            new rg.Rect(80, 50),
-                            new rg.Text('showText', true, 80)
-                        )
+            var typeOptions = {
+                nodes: {
+                    nodeA: {
+                        appearance: {
+                            contents: [
+                                {
+                                    className: 'Rect',
+                                    params: {
+                                        width: 100,
+                                        height: 100,
+                                        borderRadius: 10
+                                    }
+                                },
+                                {
+                                    className: 'Image',
+                                    params: {
+                                        width: 80,
+                                        height: 80,
+                                        srcKey: 'showText'
+                                    }
+                                }
+                            ]
+                        },
+                        collideRadius: 50
                     },
-                    links: {
-                        Lists: new rg.Link(
-                            new rg.Line(),
-                            new rg.LinkDescribe([
-                                new rg.Rect(50, 30),
-                                new rg.Text('showText', true, 50)
-                            ])
-                        )
+                    nodeB: {
+                        appearance: {
+                            contents: [
+                                {
+                                    className: 'Circle',
+                                    params: {
+                                        r: 40
+                                    }
+                                },
+                                {
+                                    className: 'Text',
+                                    params: {
+                                        textStrKey: 'showText',
+                                        isOverflowHidden: true,
+                                        maxWidth: 60
+                                    }
+                                }
+                            ]
+                        },
+                        collideRadius: 40
+                    },
+                    nodeC: {
+                        appearance: {
+                            contents: [
+                                {
+                                    className: 'Rect',
+                                    params: {
+                                        width: 80,
+                                        height: 50,
+                                        borderRadius: 5
+                                    }
+                                },
+                                {
+                                    className: 'Text',
+                                    params: {
+                                        textStrKey: 'showText',
+                                        isOverflowHidden: true,
+                                        maxWidth: 80
+                                    }
+                                }
+                            ]
+                        },
+                        collideRadius: 30
+                    }
+                },
+                links: {
+                    linkA: {
+                        describe: {
+                            contents: [
+                                {
+                                    className: 'Rect',
+                                    params: {
+                                        width: 50,
+                                        height: 30,
+                                        borderRadius: 0
+                                    }
+                                },
+                                {
+                                    className: 'Text',
+                                    params: {
+                                        textStrKey: 'showText',
+                                        isOverflowHidden: true,
+                                        maxWidth: 50
+                                    }
+                                }
+                            ]
+                        }
                     }
                 }
+            };
+
+            var rgObj = rg.create({
+                wrapper: 'app',
+                data: data,
+                typeOptions: typeOptions,
+                isZoomable: true
             });
         </script>
     </body>
