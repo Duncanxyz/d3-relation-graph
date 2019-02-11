@@ -670,7 +670,7 @@
       }
 
       // 添加悬浮和移开的事件
-      allItem.on('mouseover', function() {
+      allItem.on('mouseover', function(d) {
         // 数据位置index字段可能导致伸缩后的数据错乱（待解决）
         let d3Target = d3.select(this)
         if (!__this.isSelected) {
@@ -687,7 +687,7 @@
           mouseover(new EventObj(d, __this.storeData, d3.event))
         }
       })
-      allItem.on('mouseout', function() {
+      allItem.on('mouseout', function(d) {
         if (!__this.isSelected) {
           if (
             !d3Nodes
@@ -752,7 +752,6 @@
         }
       })
 
-      //
       svg.on('click', function() {
         let target = d3.event.target
 
