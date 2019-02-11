@@ -362,9 +362,8 @@
    * @class
    */
   class EventObj {
-    constructor(targetData, wholeData, event) {
+    constructor({targetData, event}) {
       this.targetData = targetData
-      this.wholeData = wholeData
       this.event = event
     }
   }
@@ -384,6 +383,7 @@
       nodeTypeKey = 'type',
       linkTypeKey = 'type',
       click = null,
+      clickEmpty = null,
       mouseover = null,
       mouseout = null,
       isZoomable = false,
@@ -404,6 +404,7 @@
       this.nodeTypeKey = nodeTypeKey
       this.linkTypeKey = linkTypeKey
       this.click = click
+      this.clickEmpty = clickEmpty
       this.mouseover = mouseover
       this.mouseout = mouseout
 
@@ -651,6 +652,7 @@
       let {
         svg,
         click,
+        clickEmpty,
         mouseover,
         mouseout,
         showData,
@@ -684,7 +686,10 @@
           )
         }
         if (mouseover) {
-          mouseover(new EventObj(d, __this.storeData, d3.event))
+          mouseover(new EventObj({
+            targetData: d,
+            event: d3.event
+          }))
         }
       })
       allItem.on('mouseout', function(d) {
@@ -700,7 +705,10 @@
           }
         }
         if (mouseout) {
-          mouseout(new EventObj(d, __this.storeData, d3.event))
+          mouseout(new EventObj({
+            targetData: d,
+            event: d3.event
+          }))
         }
       })
 
@@ -728,7 +736,10 @@
             )
 
             if (click) {
-              click(new EventObj(d, __this.storeData, d3.event))
+              click(new EventObj({
+                targetData: d,
+                event: d3.event
+              }))
             }
           }, 200)
         }
@@ -759,6 +770,13 @@
           // click nothing
           __this.isSelected = false
           removeAllClass(RELATION_CLASS, allItem)
+
+          if(clickEmpty) {
+            clickEmpty(new EventObj({
+              targetData: null,
+              event: d3.event
+            }))
+          }
         }
       })
     }

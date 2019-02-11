@@ -10,6 +10,7 @@ New configuration:
 -   options.isZoomable
 -   options.isBounding
 -   options.isSticky
+-   options.clickEmpty
 
 ## Show
 
@@ -77,6 +78,7 @@ rg.create(options);
 | isBounding       | boolean          | true          | If set isZoomable as true, "isBounding" will be invalid                           |              |
 | isSticky         | boolean          | false         | If set isSticky as true, the node's position will be fixed after dragging by user |              |
 | click            | function         |               | The callback while node or link was clicked                                       |              |
+| clickEmpty            | function         |               | The callback while click blank                                       |              |
 | mouseover        | function         |               | The callback while node or link was mouseovered                                   |              |
 | mouseout         | function         |               | The callback while node or link was mouseouted                                    |              |
 
