@@ -1,6 +1,6 @@
 {
     "name": "d3-relation-graph",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "description": "A force map based on D3.js to show the relation.",
     "scripts": {
         "build": "./node_modules/.bin/babel src/d3-relation-graph.js --out-file dist/js/d3-relation-graph.min.js"
