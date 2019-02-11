@@ -1026,21 +1026,7 @@
    *
    */
   function create(options) {
-    let graph = new Graph(options)
-    return {
-      hideAllNodeByKey(key, value) {
-        graph.hideAllNodeByKey(key, value)
-      },
-      showAllNodeByKey(key, value) {
-        graph.showAllNodeByKey(key, value)
-      },
-      hideAllLowerRelation(id) {
-        graph.hideAllLowerRelation(id)
-      },
-      showNextRelation(id) {
-        graph.showNextRelation(id)
-      }
-    }
+    return new Graph(options)
   }
 
   /**
