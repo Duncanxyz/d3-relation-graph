@@ -1342,8 +1342,7 @@
           if (!nodeObj) {
             nodeObj = DEFAULT_TYPE_OPTIONS.nodes['default']
           }
-          let { collideRadius } = nodeObj
-          return collideRadius ? collideRadius : 1
+          return nodeObj.collideRadius
         })
       )
     // .force('x_force', d3.forceX(width / 2).strength(0.03))
