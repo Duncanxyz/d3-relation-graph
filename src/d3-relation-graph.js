@@ -1001,6 +1001,32 @@
 
       this.update()
     }
+    
+    /**
+     * 更新图谱数据
+     */
+    updateData(data) {
+      // 储存一份原索引
+      let { nodes, links } = data
+      this.storeData = new GraphData(nodes, links)
+      // 当前显示的索引
+      this.showData = new GraphData([...nodes], [...links])
+      // 刷新图谱
+      this.update()
+    }
+
+    /**
+     * 销毁图谱
+     */
+    destroy() {
+      // 暂停模拟力
+      this.simulation.stop()
+      this.simulation = null
+      // 解绑节点拖拽事件
+      this.nodesWrapper.selectAll('.node').on('.drag', null)
+      // 删除svg
+      this.svg.remove()
+    }
   }
 
   const DEFAULT_TYPE_OPTIONS = {
