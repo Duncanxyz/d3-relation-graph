@@ -395,8 +395,8 @@
       this.levelKey = levelKey
 
       // 储存一份原索引
-      this.storeData = data
       let { nodes, links } = data
+      this.storeData = new GraphData(nodes, links)
       // 当前显示的索引
       this.showData = new GraphData([...nodes], [...links])
 
@@ -640,7 +640,9 @@
         simulation: this.simulation,
         isSticky: this.isSticky
       })
-      dragHandler(this.nodesWrapper.selectAll('.node'))
+      // dragHandler(this.nodesWrapper.selectAll('.node'))
+      let nodes = this.nodesWrapper.selectAll('.node')
+      nodes.call(dragHandler)
     }
 
     /**
