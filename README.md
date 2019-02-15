@@ -80,7 +80,6 @@ let rgObj = rg.create(options);
 - hideNodeById(id) - hide node based on node's id
 - showAllNodeByKey(key, value) - internal calls showNodeById
 - hideAllNodeByKey(key, value) - internal calls hideNodeById
-- hideAllNodeByKey(key, value) - internal calls hideNodeById
 - updateData(data)
 - destroy() - destroy the svg and all objects
 
