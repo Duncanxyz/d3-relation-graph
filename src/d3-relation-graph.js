@@ -446,10 +446,7 @@
       this.update()
 
       // 增加窗口大小变化时的响应式
-      let __this = this
-      window.addEventListener('resize', function() {
-        __this.update()
-      })
+      window.addEventListener('resize', this.update)
     }
 
     /**
@@ -1019,6 +1016,8 @@
      * 销毁图谱
      */
     destroy() {
+      // 停止监听窗口变化
+      window.removeEventListener('resize', this.update)
       // 暂停模拟力
       this.simulation.stop()
       this.simulation = null
