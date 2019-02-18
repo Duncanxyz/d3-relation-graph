@@ -417,6 +417,7 @@
       this.isZoomable = isZoomable
       this.isBounding = isZoomable ? false : isBounding
 
+      this.bindedUpdate = this.update.bind(this)
       this.init({ isZoomable })
     }
 
@@ -446,7 +447,7 @@
       this.update()
 
       // 增加窗口大小变化时的响应式
-      window.addEventListener('resize', this.update)
+      window.addEventListener('resize', this.bindedUpdate)
     }
 
     /**
@@ -1017,7 +1018,7 @@
      */
     destroy() {
       // 停止监听窗口变化
-      window.removeEventListener('resize', this.update)
+      window.removeEventListener('resize', this.bindedUpdate)
       // 暂停模拟力
       this.simulation.stop()
       this.simulation = null
