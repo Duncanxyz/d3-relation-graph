@@ -1,180 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Customize Content Demo</title>
-        <link rel="stylesheet" href="../dist/css/d3-relation-graph.css" />
-        <script src="https://d3js.org/d3.v5.min.js"></script>
-    </head>
-    <body>
-        <div
-            id="app"
-            style="width: 80vw;height:90vh;background-color:#fff;margin: 0 auto;border: 1px solid #999999"
-        ></div>
-        <script src="../dist/js/d3-relation-graph.min.js"></script>
-        <script>
-            var data = {
-                nodes: [
-                    {
-                        id: 'companyA',
-                        type: 'customizeA',
-                        showText: 'companyA',
-                        level: 1
-                    },
-                    {
-                        id: 'companyA-propA',
-                        type: 'customizeA',
-                        showText: 'propA',
-                        level: 2
-                    },
-                    {
-                        id: 'value1',
-                        type: 'customizeA',
-                        showText: 'value1',
-                        level: 3
-                    },
-                    {
-                        id: 'value2',
-                        type: 'customizeA',
-                        showText: 'value2',
-                        level: 3
-                    },
-                    {
-                        id: 'companyB-propA',
-                        type: 'customizeA',
-                        showText: 'propA',
-                        level: 2
-                    },
-                    {
-                        id: 'companyA-propB',
-                        type: 'customizeA',
-                        showText: 'propB',
-                        level: 2
-                    },
-                    {
-                        id: 'companyB',
-                        type: 'customizeA',
-                        showText: 'companyB',
-                        level: 1
-                    }
-                ],
-                links: [
-                    {
-                        id: '1',
-                        source: 'companyA',
-                        target: 'companyA-propB',
-                        type: 'linkA',
-                        showText: 'xxx'
-                    },
-                    {
-                        id: '2',
-                        source: 'companyB-propA',
-                        target: 'value2',
-                        type: 'linkA',
-                        showText: 'xxx'
-                    },
-                    {
-                        id: '3',
-                        source: 'companyB',
-                        target: 'companyB-propA',
-                        type: 'linkA',
-                        showText: 'xxx'
-                    },
-                    {
-                        id: '4',
-                        source: 'companyB-propA',
-                        target: 'value1',
-                        type: 'linkA',
-                        showText: 'xxx'
-                    },
-                    {
-                        id: '5',
-                        source: 'companyA-propA',
-                        target: 'value1',
-                        type: 'linkA',
-                        showText: 'xxx'
-                    },
-                    {
-                        id: '6',
-                        source: 'companyA',
-                        target: 'companyA-propA',
-                        type: 'linkA',
-                        showText: 'xxx'
-                    },
-                    {
-                        id: '7',
-                        source: 'companyA-propA',
-                        target: 'value2',
-                        type: 'linkA',
-                        showText: 'xxx'
-                    }
-                ]
-            };
+    <link rel="stylesheet" href="../dist/css/d3-relation-graph.css" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+  </head>
+  <body>
+    <div
+      id="app"
+      style="width: 80vw;height:90vh;background-color:#fff;margin: 0 auto;border: 1px solid #999999"
+    ></div>
+    <script src="../dist/js/d3-relation-graph.min.js"></script>
+    <script>
+      var data = {
+        nodes: [
+          {
+            id: 'companyA',
+            type: 'customizeA',
+            showText: 'companyA',
+            level: 1
+          },
+          {
+            id: 'companyA-propA',
+            type: 'customizeA',
+            showText: 'propA',
+            level: 2
+          },
+          {
+            id: 'value1',
+            type: 'customizeA',
+            showText: 'value1',
+            level: 3
+          },
+          {
+            id: 'value2',
+            type: 'customizeA',
+            showText: 'value2',
+            level: 3
+          },
+          {
+            id: 'companyB-propA',
+            type: 'customizeA',
+            showText: 'propA',
+            level: 2
+          },
+          {
+            id: 'companyA-propB',
+            type: 'customizeA',
+            showText: 'propB',
+            level: 2
+          },
+          {
+            id: 'companyB',
+            type: 'customizeA',
+            showText: 'companyB',
+            level: 1
+          }
+        ],
+        links: [
+          {
+            id: '1',
+            source: 'companyA',
+            target: 'companyA-propB',
+            type: 'linkA',
+            showText: 'xxx'
+          },
+          {
+            id: '2',
+            source: 'companyB-propA',
+            target: 'value2',
+            type: 'linkA',
+            showText: 'xxx'
+          },
+          {
+            id: '3',
+            source: 'companyB',
+            target: 'companyB-propA',
+            type: 'linkA',
+            showText: 'xxx'
+          },
+          {
+            id: '4',
+            source: 'companyB-propA',
+            target: 'value1',
+            type: 'linkA',
+            showText: 'xxx'
+          },
+          {
+            id: '5',
+            source: 'companyA-propA',
+            target: 'value1',
+            type: 'linkA',
+            showText: 'xxx'
+          },
+          {
+            id: '6',
+            source: 'companyA',
+            target: 'companyA-propA',
+            type: 'linkA',
+            showText: 'xxx'
+          },
+          {
+            id: '7',
+            source: 'companyA-propA',
+            target: 'value2',
+            type: 'linkA',
+            showText: 'xxx'
+          }
+        ]
+      }
 
-            var typeOptions = {
-                nodes: {
-                    customizeA: {
-                        appearance: {
-                            contents: [
-                                {
-                                    draw: function(options) {
-                                        var d3Parent = options.d3Parent;
-                                        var polygon = d3Parent.append(
-                                            'polygon'
-                                        );
-                                        polygon
-                                            .attr(
-                                                'points',
-                                                '0,-90 60,90 -90,-30 100,-30 -60,90'
-                                            )
-                                            .style('fill', 'skyblue');
-                                        var text = d3Parent
-                                            .append('text')
-                                            .text(function(d) {
-                                                return d.showText;
-                                            });
-
-                                        // '<polygon points="135,104 100,0 40,180 190,60 10,60 100,132" style="fill:red;stroke:black;stroke-width:1;fill-rule:evenodd;"/>'
-                                    }
-                                }
-                            ]
-                        },
-                        collideRadius: 150
-                    }
-                },
-                links: {
-                    linkA: {
-                        describe: {
-                            contents: [
-                                {
-                                    className: 'Rect',
-                                    params: {
-                                        width: 50,
-                                        height: 30,
-                                        borderRadius: 0
-                                    }
-                                },
-                                {
-                                    className: 'Text',
-                                    params: {
-                                        textStrKey: 'showText',
-                                        isOverflowHidden: true,
-                                        maxWidth: 50
-                                    }
-                                }
-                            ]
-                        }
-                    }
+      var typeOptions = {
+        nodes: {
+          customizeA: {
+            appearance: {
+              contents: [
+                {
+                  draw: function(options) {
+                    var d3Parent = options.d3Parent
+                    var polygon = d3Parent.append('polygon')
+                    polygon
+                      .attr('points', '0,-90 60,90 -90,-30 100,-30 -60,90')
+                      .style('fill', 'skyblue')
+                    var text = d3Parent.append('text').text(function(d) {
+                      return d.showText
+                    })
+                  }
                 }
-            };
+              ]
+            },
+            collideRadius: 150
+          }
+        },
+        links: {
+          linkA: {
+            describe: {
+              contents: [
+                {
+                  className: 'Rect',
+                  params: {
+                    width: 50,
+                    height: 30,
+                    borderRadius: 0
+                  }
+                },
+                {
+                  className: 'Text',
+                  params: {
+                    textStrKey: 'showText',
+                    isOverflowHidden: true,
+                    maxWidth: 50
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
 
-            var rgObj = rg.create({
-                wrapper: 'app',
-                data: data,
-                typeOptions: typeOptions
-            });
-        </script>
-    </body>
+      var rgObj = rg.create({
+        wrapper: 'app',
+        data: data,
+        typeOptions: typeOptions
+      })
+    </script>
+  </body>
 </html>

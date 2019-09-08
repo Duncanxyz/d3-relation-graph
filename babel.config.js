@@ -1,22 +1,22 @@
 module.exports = {
-    presets: [
-        [
-            '@babel/preset-env',
-            {
-                targets: {
-                    ie: 11
-                },
-                modules: false
-            }
-        ],
-        [
-            'minify',
-            {
-                keepFnName: true,
-                keepClassName: true
-            }
-        ]
+  plugins: ['@babel/plugin-proposal-class-properties'],
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        targets: {
+          ie: 11
+        },
+        modules: false
+      }
     ],
-    plugins: ['@babel/plugin-proposal-class-properties'],
-    comments: false
-};
+    [
+      'minify',
+      {
+        keepFnName: true,
+        keepClassName: true
+      }
+    ]
+  ],
+  comments: false
+}

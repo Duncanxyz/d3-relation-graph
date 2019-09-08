@@ -1,222 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Basic Demo</title>
-        <link rel="stylesheet" href="../dist/css/d3-relation-graph.css" />
-        <script src="https://d3js.org/d3.v5.min.js"></script>
-    </head>
-    <body>
-        <div
-            id="app"
-            style="width: 80vw;height:90vh;background-color:#fff;margin: 0 auto;border: 1px solid #999999"
-        ></div>
-        <script src="../dist/js/d3-relation-graph.min.js"></script>
-        <script>
-            var data = {
-                nodes: [
-                    {
-                        id: 'companyA',
-                        type: 'nodeA',
-                        showText:
-                            'https://upload.wikimedia.org/wikipedia/en/thumb/e/e7/AutoNaviLogo.png/220px-AutoNaviLogo.png',
-                        level: 1
-                    },
-                    {
-                        id: 'companyA-propA',
-                        type: 'nodeB',
-                        showText: 'propA',
-                        level: 2
-                    },
-                    {
-                        id: 'value1',
-                        type: 'nodeC',
-                        showText: 'value1',
-                        level: 3
-                    },
-                    {
-                        id: 'value2',
-                        type: 'nodeC',
-                        showText: 'value2',
-                        level: 3
-                    },
-                    {
-                        id: 'companyB-propA',
-                        type: 'nodeB',
-                        showText: 'propA',
-                        level: 2
-                    },
-                    {
-                        id: 'companyA-propB',
-                        type: 'nodeB',
-                        showText: 'propB',
-                        level: 2
-                    },
-                    {
-                        id: 'companyB',
-                        type: 'nodeA',
-                        showText:
-                            'https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Baidu.svg/250px-Baidu.svg.png',
-                        level: 1
-                    }
-                ],
-                links: [
-                    {
-                        id: '1',
-                        source: 'companyA',
-                        target: 'companyA-propB',
-                        type: 'linkA',
-                        showText: 'xxx'
-                    },
-                    {
-                        id: '2',
-                        source: 'companyB-propA',
-                        target: 'value2',
-                        type: 'linkA',
-                        showText: 'xxx'
-                    },
-                    {
-                        id: '3',
-                        source: 'companyB',
-                        target: 'companyB-propA',
-                        type: 'linkA',
-                        showText: 'xxx'
-                    },
-                    {
-                        id: '4',
-                        source: 'companyB-propA',
-                        target: 'value1',
-                        type: 'linkA',
-                        showText: 'xxx'
-                    },
-                    {
-                        id: '5',
-                        source: 'companyA-propA',
-                        target: 'value1',
-                        type: 'linkA',
-                        showText: 'xxx'
-                    },
-                    {
-                        id: '6',
-                        source: 'companyA',
-                        target: 'companyA-propA',
-                        type: 'linkA',
-                        showText: 'xxx'
-                    },
-                    {
-                        id: '7',
-                        source: 'companyA-propA',
-                        target: 'value2',
-                        type: 'linkA',
-                        showText: 'xxx'
-                    }
-                ]
-            };
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Basic Demo</title>
+    <link rel="stylesheet" href="../dist/css/d3-relation-graph.css" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+  </head>
+  <body>
+    <div
+      id="app"
+      style="width: 80vw;height:90vh;background-color:#fff;margin: 0 auto;border: 1px solid #999999"
+    ></div>
+    <script src="../dist/js/d3-relation-graph.min.js"></script>
+    <script>
+      var data = {
+        nodes: [
+          {
+            id: "companyA",
+            type: "nodeA",
+            imgUrl:
+              "https://upload.wikimedia.org/wikipedia/en/thumb/e/e7/AutoNaviLogo.png/220px-AutoNaviLogo.png",
+            level: 1
+          },
+          {
+            id: "companyA-propA",
+            type: "nodeB",
+            label: "propA",
+            level: 2
+          },
+          {
+            id: "value1",
+            type: "nodeC",
+            label: "value1",
+            level: 3
+          },
+          {
+            id: "value2",
+            type: "nodeC",
+            label: "value2",
+            level: 3
+          },
+          {
+            id: "companyB-propA",
+            type: "nodeB",
+            label: "propA",
+            level: 2
+          },
+          {
+            id: "companyA-propB",
+            type: "nodeB",
+            label: "propB",
+            level: 2
+          },
+          {
+            id: "companyB",
+            type: "nodeA",
+            imgUrl:
+              "https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Baidu.svg/250px-Baidu.svg.png",
+            level: 1
+          }
+        ],
+        links: [
+          {
+            id: "1",
+            source: "companyA",
+            target: "companyA-propB",
+            type: "linkA",
+            label: "something"
+          },
+          {
+            id: "2",
+            source: "companyB-propA",
+            target: "value2",
+            type: "linkA",
+            label: "something"
+          },
+          {
+            id: "3",
+            source: "companyB",
+            target: "companyB-propA",
+            type: "linkA",
+            label: "something"
+          },
+          {
+            id: "4",
+            source: "companyB-propA",
+            target: "value1",
+            type: "linkA",
+            label: "something"
+          },
+          {
+            id: "5",
+            source: "companyA-propA",
+            target: "value1",
+            type: "linkA",
+            label: "something"
+          },
+          {
+            id: "6",
+            source: "companyA",
+            target: "companyA-propA",
+            type: "linkA",
+            label: "something"
+          },
+          {
+            id: "7",
+            source: "companyA-propA",
+            target: "value2",
+            type: "linkA",
+            label: "something"
+          }
+        ]
+      };
 
-            var typeOptions = {
-                nodes: {
-                    nodeA: {
-                        appearance: {
-                            contents: [
-                                {
-                                    className: 'Rect',
-                                    params: {
-                                        width: 100,
-                                        height: 100,
-                                        borderRadius: 10
-                                    }
-                                },
-                                {
-                                    className: 'Image',
-                                    params: {
-                                        width: 80,
-                                        height: 80,
-                                        srcKey: 'showText'
-                                    }
-                                }
-                            ]
-                        },
-                        collideRadius: 50
-                    },
-                    nodeB: {
-                        appearance: {
-                            contents: [
-                                {
-                                    className: 'Circle',
-                                    params: {
-                                        r: 40
-                                    }
-                                },
-                                {
-                                    className: 'Text',
-                                    params: {
-                                        textStrKey: 'showText',
-                                        isOverflowHidden: true,
-                                        maxWidth: 60
-                                    }
-                                }
-                            ]
-                        },
-                        collideRadius: 40
-                    },
-                    nodeC: {
-                        appearance: {
-                            contents: [
-                                {
-                                    className: 'Rect',
-                                    params: {
-                                        width: 80,
-                                        height: 50,
-                                        borderRadius: 5
-                                    }
-                                },
-                                {
-                                    className: 'Text',
-                                    params: {
-                                        textStrKey: 'showText',
-                                        isOverflowHidden: true,
-                                        maxWidth: 80
-                                    }
-                                }
-                            ]
-                        },
-                        collideRadius: 30
-                    }
+      var typeOptions = {
+        nodes: {
+          nodeA: {
+            appearance: {
+              contents: [
+                {
+                  className: "Rect",
+                  params: {
+                    width: 100,
+                    height: 100,
+                    borderRadius: 10
+                  }
                 },
-                links: {
-                    linkA: {
-                        describe: {
-                            contents: [
-                                {
-                                    className: 'Rect',
-                                    params: {
-                                        width: 50,
-                                        height: 30,
-                                        borderRadius: 0
-                                    }
-                                },
-                                {
-                                    className: 'Text',
-                                    params: {
-                                        textStrKey: 'showText',
-                                        isOverflowHidden: true,
-                                        maxWidth: 50
-                                    }
-                                }
-                            ]
-                        }
-                    }
+                {
+                  className: "Image",
+                  params: {
+                    width: 80,
+                    height: 80,
+                    srcKey: "imgUrl"
+                  }
                 }
-            };
+              ]
+            },
+            collideRadius: 50
+          },
+          nodeB: {
+            appearance: {
+              contents: [
+                {
+                  className: "Circle",
+                  params: {
+                    r: 40
+                  }
+                },
+                {
+                  className: "Text",
+                  params: {
+                    textStrKey: "label",
+                    isOverflowHidden: true,
+                    maxWidth: 60
+                  }
+                }
+              ]
+            },
+            collideRadius: 40
+          },
+          nodeC: {
+            appearance: {
+              contents: [
+                {
+                  className: "Rect",
+                  params: {
+                    width: 80,
+                    height: 50,
+                    borderRadius: 5
+                  }
+                },
+                {
+                  className: "Text",
+                  params: {
+                    textStrKey: "label",
+                    isOverflowHidden: true,
+                    maxWidth: 80
+                  }
+                }
+              ]
+            },
+            collideRadius: 30
+          }
+        },
+        links: {
+          linkA: {
+            describe: {
+              contents: [
+                {
+                  className: "Rect",
+                  params: {
+                    width: 50,
+                    height: 30,
+                    borderRadius: 0
+                  }
+                },
+                {
+                  className: "Text",
+                  params: {
+                    textStrKey: "label",
+                    isOverflowHidden: true,
+                    maxWidth: 50
+                  }
+                }
+              ]
+            }
+          }
+        }
+      };
 
-            var rgObj = rg.create({
-                wrapper: 'app',
-                data: data,
-                typeOptions: typeOptions,
-                isZoomable: true
-            });
-        </script>
-    </body>
+      var rgObj = rg.create({
+        wrapper: "app",
+        data: data,
+        typeOptions: typeOptions,
+        isZoomable: true,
+        click(eventObj) {
+          debugger;
+        }
+      });
+    </script>
+  </body>
 </html>

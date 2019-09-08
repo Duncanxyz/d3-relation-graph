@@ -1,9 +1,9 @@
-;(function(global, factory) {
-  if (typeof exports === 'object' && typeof module !== 'undefined') {
+; (function(global, factory) {
+  if(typeof exports === 'object' && typeof module !== 'undefined') {
     let d3 = require('d3')
     factory(exports, d3)
-  } else if (typeof define === 'function' && define.amd) {
-    if (!d3) {
+  } else if(typeof define === 'function' && define.amd) {
+    if(!d3) {
       require(['d3'], function(d3) {
         define(['exports'], function(exports) {
           factory(exports, d3)
@@ -57,7 +57,7 @@
     draw({ d3Self }) {
       this.drawList.forEach(itemName => {
         let item = this[itemName]
-        if (item) {
+        if(item) {
           item.draw(new DrawOptionsBaseParent(d3Self))
         }
       })
@@ -99,7 +99,7 @@
       let width = parseInt(svg.style('width'))
       let height = parseInt(svg.style('height'))
       d3Self.attr('transform', function(d) {
-        if (isBounding) {
+        if(isBounding) {
           let box = this.getBBox()
           let halfBoxWidth = box.width / 2
           let halfBoxHeight = box.height / 2
@@ -149,7 +149,7 @@
    * @class
    */
   class Line {
-    constructor() {}
+    constructor() { }
 
     /**
      * 绘制线
@@ -309,7 +309,7 @@
         .text(function(d) {
           return d[textStrKey]
         })
-      if (isOverflowHidden) {
+      if(isOverflowHidden) {
         Text.ellipsis(text, maxWidth)
       }
     }
@@ -334,11 +334,11 @@
 
       let content = d3Text.insert('tspan', ':first-child').text(words.join(''))
 
-      while (content.node().getComputedTextLength() > width && words.length) {
+      while(content.node().getComputedTextLength() > width && words.length) {
         words.pop()
         content.text(words.join(''))
       }
-      if (words.length === wordsLength) {
+      if(words.length === wordsLength) {
         dots.remove()
       }
     }
@@ -362,7 +362,7 @@
    * @class
    */
   class EventObj {
-    constructor({targetData, event}) {
+    constructor({ targetData, event }) {
       this.targetData = targetData
       this.event = event
     }
@@ -433,7 +433,7 @@
       // });
       // 创建分组
       let rg = svg.append('g').attr('class', 'rg')
-      if (isZoomable) {
+      if(isZoomable) {
         startZoom(svg, rg)
       }
       this.linksWrapper = rg.append('g').attr('class', 'links')
@@ -460,7 +460,7 @@
     initSvg(wrapper) {
       let wrapperDom =
         typeof wrapper === 'string' ? document.getElementById(wrapper) : wrapper
-      if (!wrapper) {
+      if(!wrapper) {
         throw new Error('the wrapper does not exist.')
       }
 
@@ -533,7 +533,7 @@
       nodes.each(function(d) {
         let node = d3.select(this)
         let typeObj = typeOptions.nodes[d[nodeTypeKey]]
-        if (!typeObj) {
+        if(!typeObj) {
           typeObj = DEFAULT_TYPE_OPTIONS.nodes['default']
         }
         typeObj.draw(new DrawOptionsBaseSelf(node))
@@ -554,7 +554,7 @@
       links.each(function(d) {
         let link = d3.select(this)
         let typeObj = typeOptions.links[d[nodeTypeKey]]
-        if (!typeObj) {
+        if(!typeObj) {
           typeObj = DEFAULT_TYPE_OPTIONS.links['default']
         }
         typeObj.draw(new DrawOptionsBaseSelf(link))
@@ -567,7 +567,7 @@
     updateSimulation() {
       let { showData, simulation, svg, typeOptions, nodeTypeKey } = this
 
-      if (simulation) {
+      if(simulation) {
         simulation.stop()
       }
       this.simulation = initSimulation({
@@ -610,7 +610,7 @@
       d3Nodes.each(function(d) {
         let node = d3.select(this)
         let typeObj = typeOptions.nodes[d[nodeTypeKey]]
-        if (!typeObj) {
+        if(!typeObj) {
           typeObj = DEFAULT_TYPE_OPTIONS.nodes['default']
         }
         typeObj.tickActions({
@@ -622,7 +622,7 @@
       d3links.each(function(d) {
         let link = d3.select(this)
         let typeObj = typeOptions.links[d[linkTypeKey]]
-        if (!typeObj) {
+        if(!typeObj) {
           typeObj = DEFAULT_TYPE_OPTIONS.links['default']
         }
         typeObj.tickActions({ d3Self: link })
@@ -675,7 +675,7 @@
       allItem.on('mouseover', function(d) {
         // 数据位置index字段可能导致伸缩后的数据错乱（待解决）
         let d3Target = d3.select(this)
-        if (!__this.isSelected) {
+        if(!__this.isSelected) {
           d3Target.classed(RELATION_CLASS.hovered, true)
           markRelations(
             d3Nodes,
@@ -685,7 +685,7 @@
             RELATION_CLASS.hoverNotRelating
           )
         }
-        if (mouseover) {
+        if(mouseover) {
           mouseover(new EventObj({
             targetData: d,
             event: d3.event
@@ -693,8 +693,8 @@
         }
       })
       allItem.on('mouseout', function(d) {
-        if (!__this.isSelected) {
-          if (
+        if(!__this.isSelected) {
+          if(
             !d3Nodes
               .filter(function() {
                 return d3.select(this).attr('rg-dragging')
@@ -704,7 +704,7 @@
             removeAllClass(RELATION_CLASS, allItem)
           }
         }
-        if (mouseout) {
+        if(mouseout) {
           mouseout(new EventObj({
             targetData: d,
             event: d3.event
@@ -716,7 +716,8 @@
       allItem.on('click', function(d) {
         __this.isSelected = true
         let d3Target = d3.select(this)
-        if (d.rgClickFlag) {
+        let event = d3.event
+        if(d.rgClickFlag) {
           d.rgClickFlag = false
           clearTimeout(d.rgClickTimeout)
           __this.isSelected = false
@@ -734,11 +735,11 @@
               RELATION_CLASS.selectRelating,
               RELATION_CLASS.selectNotRelating
             )
-
-            if (click) {
+                
+            if(click) {
               click(new EventObj({
                 targetData: d,
-                event: d3.event
+                event
               }))
             }
           }, 200)
@@ -748,7 +749,7 @@
       // 双击节点
       // nodes
       d3Nodes.on('dblclick', function(d) {
-        if (
+        if(
           isNodeCollapsed(
             showData.links,
             storeData.links,
@@ -766,7 +767,7 @@
       svg.on('click', function() {
         let target = d3.event.target
 
-        if (target.tagName === 'svg') {
+        if(target.tagName === 'svg') {
           // click nothing
           __this.isSelected = false
           removeAllClass(RELATION_CLASS, allItem)
@@ -789,7 +790,7 @@
 
       let node = findObjByKeyValueInArr('id', id, showData.nodes)
 
-      if (!node) {
+      if(!node) {
         return
       }
 
@@ -797,15 +798,15 @@
       let hidingLinks = []
       storeData.links.forEach(link => {
         let otherNode
-        if (link.source === node) {
+        if(link.source === node) {
           otherNode = link.target
-        } else if (link.target === node) {
+        } else if(link.target === node) {
           otherNode = link.source
         } else {
           return
         }
-        if (!filteredIdSet.has(otherNode.id)) {
-          if (showData.links.indexOf(link) === -1) {
+        if(!filteredIdSet.has(otherNode.id)) {
+          if(showData.links.indexOf(link) === -1) {
             hidingLinks.push(link)
             showData.links.push(link)
           }
@@ -815,12 +816,12 @@
       let hidingNodes = []
       hidingLinks.forEach(link => {
         let nextNode
-        if (link.source === node) {
+        if(link.source === node) {
           nextNode = link.target
         } else {
           nextNode = link.source
         }
-        if (!filteredIdSet.has(nextNode)) {
+        if(!filteredIdSet.has(nextNode)) {
           hidingNodes.push(nextNode)
           showData.nodes.push(nextNode)
         } else {
@@ -831,8 +832,8 @@
 
       // 再查找一次线有没有没显示的
       storeData.links.forEach(link => {
-        if (showData.links.indexOf(link) === -1) {
-          if (
+        if(showData.links.indexOf(link) === -1) {
+          if(
             showData.nodes.indexOf(link.source) !== -1 &&
             showData.nodes.indexOf(link.target) !== -1
           ) {
@@ -842,7 +843,7 @@
         }
       })
 
-      if (!hidingLinks.length && !hidingNodes.length) {
+      if(!hidingLinks.length && !hidingNodes.length) {
         return
       }
 
@@ -858,10 +859,10 @@
       let { showData } = this
       let node = findObjByKeyValueInArr('id', id, showData.nodes)
 
-      if (!node) {
+      if(!node) {
         return
       }
-      if (filterAllLowerRelation(node, [], showData, 1).length) {
+      if(filterAllLowerRelation(node, [], showData, 1).length) {
         this.update()
       }
     }
@@ -874,12 +875,12 @@
     hideNodeById(id) {
       let { filteredIdSet, showData } = this
 
-      if (filteredIdSet.has(id)) {
+      if(filteredIdSet.has(id)) {
         return
       }
 
       let hideNode = findObjByKeyValueInArr('id', id, showData.nodes)
-      if (!hideNode) {
+      if(!hideNode) {
         return
       }
       // 从目前显示的节点、连线中找出所有要隐藏的并删除
@@ -888,15 +889,15 @@
       // 找出比该节点高级且与该节点相连的线，并删除
       showData.links.forEach(link => {
         let otherNode
-        if (link.source === hideNode) {
+        if(link.source === hideNode) {
           otherNode = link.target
-        } else if (link.target === hideNode) {
+        } else if(link.target === hideNode) {
           otherNode = link.source
         } else {
           return
         }
 
-        if (otherNode.level < hideNode.level) {
+        if(otherNode.level < hideNode.level) {
           showData.links.splice(showData.links.indexOf(link), 1)
         }
       })
@@ -918,11 +919,11 @@
     hideAllNodeByKey(key, value) {
       let nodes = findAllObjByKeyValueInArr(key, value, this.showData.nodes)
 
-      if (!nodes.length) {
+      if(!nodes.length) {
         return
       }
 
-      for (let i = 0; i < nodes.length; i++) {
+      for(let i = 0; i < nodes.length; i++) {
         this.hideNodeById(nodes[i].id)
       }
     }
@@ -935,12 +936,12 @@
     showNodeById(id) {
       let { filteredIdSet, storeData } = this
 
-      if (!filteredIdSet.has(id)) {
+      if(!filteredIdSet.has(id)) {
         return
       }
 
       let showNode = findObjByKeyValueInArr('id', id, storeData.nodes)
-      if (!showNode) {
+      if(!showNode) {
         return
       }
       // 从显示库中找到与该节点相关的节点与连线，并添加进显示库中更新
@@ -959,10 +960,10 @@
     showAllNodeByKey(key, value) {
       let nodes = findAllObjByKeyValueInArr(key, value, this.storeData.nodes)
 
-      if (!nodes.length) {
+      if(!nodes.length) {
         return
       }
-      for (let i = 0; i < nodes.length; i++) {
+      for(let i = 0; i < nodes.length; i++) {
         this.showNodeById(nodes[i].id)
       }
     }
@@ -979,17 +980,17 @@
 
       showData.nodes.push(showNode)
 
-      for (let i = 0; i < storeData.links.length; i++) {
+      for(let i = 0; i < storeData.links.length; i++) {
         let link = storeData.links[i]
 
-        if (link.source === showNode || link.target === showNode) {
+        if(link.source === showNode || link.target === showNode) {
           relationLinks.push(link)
         }
       }
-      for (let link of relationLinks) {
+      for(let link of relationLinks) {
         let sourceNode = link.source
         let targetNode = link.target
-        if (
+        if(
           showData.nodes.indexOf(sourceNode) !== -1 &&
           showData.nodes.indexOf(targetNode) !== -1
         ) {
@@ -999,7 +1000,7 @@
 
       this.update()
     }
-    
+
     /**
      * 更新图谱数据
      */
@@ -1095,25 +1096,25 @@
     let lowerRelationLinks = []
     storeLinks.forEach(link => {
       let otherNode
-      if (link.source === detectNodeData) {
+      if(link.source === detectNodeData) {
         otherNode = link.target
-      } else if (link.target === detectNodeData) {
+      } else if(link.target === detectNodeData) {
         otherNode = link.source
       } else {
         return
       }
 
-      if (filteredIdSet.has(otherNode.id)) {
+      if(filteredIdSet.has(otherNode.id)) {
         return
       }
-      if (otherNode[levelKey] > detectNodeData[levelKey]) {
+      if(otherNode[levelKey] > detectNodeData[levelKey]) {
         lowerRelationLinks.push(link)
       }
     })
 
-    for (let i = 0; i < lowerRelationLinks.length; i++) {
+    for(let i = 0; i < lowerRelationLinks.length; i++) {
       let link = lowerRelationLinks[i]
-      if (showLinks.indexOf(link) === -1) {
+      if(showLinks.indexOf(link) === -1) {
         return true
       }
     }
@@ -1136,53 +1137,53 @@
     let { links, nodes } = showData
 
     // 移出该节点
-    if (floor !== 1) {
+    if(floor !== 1) {
       colletedNodes.push(node)
       nodes.splice(nodes.indexOf(node), 1)
     }
 
     // 寻找下级
     let beFindNodes = []
-    for (let i = 0; i < links.length; i++) {
+    for(let i = 0; i < links.length; i++) {
       let link = links[i]
       let beFindNode
-      if (link.source === node) {
+      if(link.source === node) {
         beFindNode = link.target
-      } else if (link.target === node) {
+      } else if(link.target === node) {
         beFindNode = link.source
       } else {
         continue
       }
 
-      if (!beFindNode) {
+      if(!beFindNode) {
         continue
       }
-      if (beFindNode.level > node.level) {
+      if(beFindNode.level > node.level) {
         beFindNodes.push(beFindNode)
         links.splice(i--, 1)
         continue
       } else {
-        if (floor !== 1) {
+        if(floor !== 1) {
           links.splice(i--, 1)
         }
       }
     }
 
-    for (let i = 0; i < beFindNodes.length; i++) {
+    for(let i = 0; i < beFindNodes.length; i++) {
       filterAllLowerRelation(beFindNodes[i], colletedNodes, showData, floor + 1)
     }
 
-    if (floor === 1) {
+    if(floor === 1) {
       // 再过滤一次线
       // let linksLength = links.length;
-      for (let i = 0; i < links.length; i++) {
+      for(let i = 0; i < links.length; i++) {
         let link = links[i]
 
-        for (let j = 0; j < colletedNodes.length; j++) {
+        for(let j = 0; j < colletedNodes.length; j++) {
           let checkingNode = colletedNodes[j]
 
-          if (link.source === checkingNode || link.target === checkingNode) {
-            if (
+          if(link.source === checkingNode || link.target === checkingNode) {
+            if(
               nodes.indexOf(link.source) === -1 ||
               nodes.indexOf(link.source) === -1
             ) {
@@ -1216,12 +1217,12 @@
 
     // handledEle.classed(relatingClassName, true);
 
-    if (handledEle.classed('node')) {
+    if(handledEle.classed('node')) {
       let relationLinksData = []
       choseClassToEach(
         d3Links,
         function(d) {
-          if (d.source === handledData || d.target === handledData) {
+          if(d.source === handledData || d.target === handledData) {
             relationLinksData.push(d)
             return true
           } else {
@@ -1234,11 +1235,11 @@
       choseClassToEach(
         d3Nodes,
         function(d) {
-          if (handledData === d) {
+          if(handledData === d) {
             return true
           }
-          for (let linkData of relationLinksData) {
-            if (d === linkData.source || d === linkData.target) {
+          for(let linkData of relationLinksData) {
+            if(d === linkData.source || d === linkData.target) {
               return true
             }
           }
@@ -1252,7 +1253,7 @@
       choseClassToEach(
         d3Nodes,
         function(d) {
-          if (d === linkData.source || d === linkData.target) {
+          if(d === linkData.source || d === linkData.target) {
             return true
           } else {
             return false
@@ -1264,7 +1265,7 @@
       choseClassToEach(
         d3Links,
         function(d) {
-          if (d === handledData) {
+          if(d === handledData) {
             return true
           } else {
             return false
@@ -1286,7 +1287,7 @@
    */
   function choseClassToEach(selection, filter, trueClass, falseClass) {
     selection.each(function(d) {
-      if (filter(d)) {
+      if(filter(d)) {
         d3.select(this).classed(trueClass, true)
         d3.select(this).classed(falseClass, false)
       } else {
@@ -1311,7 +1312,9 @@
     return dragHandler
 
     function dragStart(d) {
-      if (!d3.event.active) simulation.alphaTarget(0.3).restart()
+      if(!d3.event.active) {
+        simulation.alphaTarget(0.3).restart()
+      }
       d.fx = d.x
       d.fy = d.y
       d3.select(this).attr('rg-dragging', true)
@@ -1323,8 +1326,10 @@
     }
 
     function dragEnd(d) {
-      if (!d3.event.active) simulation.alphaTarget(0)
-      if (!isSticky) {
+      if(!d3.event.active) {
+        simulation.alphaTarget(0)
+      }
+      if(!isSticky) {
         d.fx = null
         d.fy = null
       }
@@ -1367,7 +1372,7 @@
         'collide_force',
         d3.forceCollide(function(d) {
           let nodeObj = typeOptions.nodes[d[nodeTypeKey]]
-          if (!nodeObj) {
+          if(!nodeObj) {
             nodeObj = DEFAULT_TYPE_OPTIONS.nodes['default']
           }
           return nodeObj.collideRadius
@@ -1388,7 +1393,7 @@
    * @param {Object} selection d3选取的集合
    */
   function removeAllClass(classListObj, selection) {
-    for (let prop in classListObj) {
+    for(let prop in classListObj) {
       selection.classed(classListObj[prop], false)
     }
   }
@@ -1430,12 +1435,14 @@
 
         let k = tmp.k
         let oriTransform = d3Ele.attr('transform')
-        if (!oriTransform) return tmp
+        if(!oriTransform) {
+          return tmp
+        }
 
         // eslint-disable-next-line no-useless-escape
         let reg1 = /translate\(([0-9\.]+,[0-9\.]+)\).*/
         let oriPosition = oriTransform.replace(reg1, '$1').split(',')
-        if (k < 0.1) {
+        if(k < 0.1) {
           tmp.k = 0.1
           tmp.x = oriPosition[0]
           tmp.y = oriPosition[1]
@@ -1461,7 +1468,7 @@
       .filter(function() {
         let type = d3.event.type
 
-        if (type == 'dblclick') {
+        if(type == 'dblclick') {
           return false
         }
 
@@ -1481,9 +1488,9 @@
   function findObjByKeyValueInArr(key, value, arr) {
     let result = null
 
-    for (let i = 0; i < arr.length; i++) {
+    for(let i = 0; i < arr.length; i++) {
       let obj = arr[i]
-      if (obj[key] === value) {
+      if(obj[key] === value) {
         result = obj
         break
       }
@@ -1504,9 +1511,9 @@
   function findAllObjByKeyValueInArr(key, value, arr) {
     let result = []
 
-    for (let i = 0; i < arr.length; i++) {
+    for(let i = 0; i < arr.length; i++) {
       let obj = arr[i]
-      if (obj[key] === value) {
+      if(obj[key] === value) {
         result.push(obj)
         continue
       }
@@ -1524,7 +1531,7 @@
     // 解析节点的
     let nodesOptions = typeOptions.nodes
     let nodesParser = {}
-    for (let prop in nodesOptions) {
+    for(let prop in nodesOptions) {
       // 生成基本框架
       nodesParser[prop] = new Node({
         appearance: new NodeAppearance(),
@@ -1540,7 +1547,7 @@
     // 解析线的
     let linksOptions = typeOptions.links
     let linksParser = {}
-    for (let prop in linksOptions) {
+    for(let prop in linksOptions) {
       // 生成基本框架
       linksParser[prop] = new Link({
         describe: new LinkDescribe()
@@ -1566,7 +1573,7 @@
   function makeContentsOptionsParser(contentsOptions) {
     let contentsParser = []
     contentsOptions.forEach(contentOptions => {
-      if (contentOptions.draw) {
+      if(contentOptions.draw) {
         // 自定义的绘画对象
         contentsParser.push(contentOptions)
         return

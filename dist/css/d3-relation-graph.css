@@ -1,58 +1,58 @@
 .rg-wrapper rect,
 .rg-wrapper circle {
-    fill: #99ccff;
+  fill: #99ccff;
 }
 
 .rg-wrapper text {
-    fill: #000;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  fill: #000;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .rg-wrapper line {
-    stroke: #eee;
-    stroke-width: 2px;
+  stroke: #eee;
+  stroke-width: 2px;
 }
 
 .rg-wrapper .rg-hover-not-relating rect,
 .rg-wrapper .rg-hover-not-relating circle,
 .rg-wrapper .rg-hover-not-relating line {
-    opacity: 0.2;
+  opacity: 0.2;
 }
 
 .rg-wrapper .rg-hover-relating rect,
 .rg-wrapper .rg-hover-relating circle,
 .rg-wrapper .rg-hover-relating line {
-    stroke-width: 4px;
-    stroke: #ccff99;
+  stroke-width: 4px;
+  stroke: #ccff99;
 }
 
 .rg-wrapper .rg-hovered rect,
 .rg-wrapper .rg-hovered circle,
 .rg-wrapper .rg-hovered line {
-    stroke-width: 4px;
-    stroke: #91c261;
+  stroke-width: 4px;
+  stroke: #91c261;
 }
 
 .rg-wrapper .rg-select-relating rect,
 .rg-wrapper .rg-select-relating circle,
 .rg-wrapper .rg-select-relating line {
-    stroke-width: 4px;
-    stroke: #ccff99;
+  stroke-width: 4px;
+  stroke: #ccff99;
 }
 
 .rg-wrapper .rg-select-not-relating rect,
 .rg-wrapper .rg-select-not-relating circle,
 .rg-wrapper .rg-select-not-relating line {
-    opacity: 0.2;
+  opacity: 0.2;
 }
 
 .rg-wrapper .rg-selected rect,
 .rg-wrapper .rg-selected circle,
 .rg-wrapper .rg-selected line {
-    stroke-width: 4px;
-    stroke: #91c261;
+  stroke-width: 4px;
+  stroke: #91c261;
 }
